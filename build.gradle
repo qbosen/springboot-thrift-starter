@@ -1,0 +1,54 @@
+buildscript {
+    ext {
+        springbootVersion = "2.3.2.RELEASE"
+        springDependencyMgrVersion = "1.0.9.RELEASE"
+        kotlinVersion = "1.3.72"
+    }
+}
+plugins {
+    id 'idea'
+    id "org.springframework.boot" version "$springbootVersion"
+    id "io.spring.dependency-management" version "$springDependencyMgrVersion"
+    id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
+    id "org.jetbrains.kotlin.kapt" version "$kotlinVersion"
+    id "org.jetbrains.kotlin.plugin.spring" version "$kotlinVersion"
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+group 'top.abosen.rpc'
+version '1.0-SNAPSHOT'
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group: "org.junit.vintage", module: "junit-vintage-engine")
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs += ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}
