@@ -4,51 +4,63 @@ buildscript {
         springDependencyMgrVersion = "1.0.9.RELEASE"
         kotlinVersion = "1.3.72"
     }
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        mavenCentral()
+    }
 }
 plugins {
-    id 'idea'
-    id "org.springframework.boot" version "$springbootVersion"
-    id "io.spring.dependency-management" version "$springDependencyMgrVersion"
-    id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
-    id "org.jetbrains.kotlin.kapt" version "$kotlinVersion"
-    id "org.jetbrains.kotlin.plugin.spring" version "$kotlinVersion"
+    id "idea"
+    id "org.springframework.boot" version "$springbootVersion" apply(false)
+    id "io.spring.dependency-management" version "$springDependencyMgrVersion" apply(false)
+    id "org.jetbrains.kotlin.jvm" version "$kotlinVersion" apply(false)
+    id "org.jetbrains.kotlin.kapt" version "$kotlinVersion" apply(false)
+    id "org.jetbrains.kotlin.plugin.spring" version "$kotlinVersion" apply(false)
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+subprojects {
+    apply plugin: "idea"
+    apply plugin: "org.springframework.boot"
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "org.jetbrains.kotlin.jvm"
+    apply plugin: "org.jetbrains.kotlin.kapt"
+    apply plugin: "org.jetbrains.kotlin.plugin.spring"
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
     }
-}
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-group 'top.abosen.rpc'
-version '1.0-SNAPSHOT'
+    group 'top.abosen.rpc'
+    version '1.0-SNAPSHOT'
 
-repositories {
-    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
-    mavenCentral()
-}
-
-dependencies {
-    implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude(group: "org.junit.vintage", module: "junit-vintage-engine")
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        mavenCentral()
     }
-}
 
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter")
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+        testImplementation("org.springframework.boot:spring-boot-starter-test") {
+            exclude(group: "org.junit.vintage", module: "junit-vintage-engine")
+        }
+    }
 
-test {
-    useJUnitPlatform()
-}
+    test {
+        useJUnitPlatform()
+    }
 
-compileKotlin {
-    kotlinOptions {
-        freeCompilerArgs += ["-Xjsr305=strict"]
-        jvmTarget = "1.8"
+    compileKotlin {
+        kotlinOptions {
+            freeCompilerArgs += ["-Xjsr305=strict"]
+            jvmTarget = "1.8"
+        }
     }
 }
