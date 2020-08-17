@@ -3,6 +3,7 @@ buildscript {
         springbootVersion = "2.3.2.RELEASE"
         springDependencyMgrVersion = "1.0.9.RELEASE"
         kotlinVersion = "1.3.72"
+        thriftVersion = "0.13.0"
     }
     repositories {
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }

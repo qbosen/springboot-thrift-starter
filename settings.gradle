@@ -1,4 +1,5 @@
 rootProject.name = 'springboot-thrift-starter'
 include 'springboot-thrift-starter-server'
 include 'springboot-thrift-starter-client'
+include 'springboot-thrift-starter-common'
 
