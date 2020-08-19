@@ -15,5 +15,8 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation(project(":iface"))
+    // maven local
     implementation("top.abosen.rpc:springboot-thrift-starter-client:1.0-SNAPSHOT")
+//    implementation(project(":springboot-thrift-starter-client"))
+
 }
